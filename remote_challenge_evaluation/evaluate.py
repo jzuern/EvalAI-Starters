@@ -1,7 +1,12 @@
+import numpy as np 
+from metrics import compute_psnr
+import torch 
+
 
 
 def evaluate(user_submission_file, phase_codename, test_annotation_file=None, **kwargs):
     print("Starting Evaluation.....")
+    
     """
     Evaluates the submission for a particular challenge phase and returns score
     Arguments:
@@ -47,30 +52,60 @@ def evaluate(user_submission_file, phase_codename, test_annotation_file=None, **
     # Load test annotation file for current phase
     test_annotation_file = json.loads(open("{phase_codename}_path", "r"))
     '''
+    
+    
     output = {}
     if phase_codename == "dev":
+        
+        random_image = np.random.randint(0, 255, (100, 100, 3))
+        
+
         print("Evaluating for Dev Phase")
         output["result"] = [
             {
                 "split": "train_split",
                 "show_to_participant": True,
-                "accuracies": {"Metric1": 90},
+                "accuracies": 
+                    {
+                        "PSNR": 10.4,
+                        "SSIM": 0.5,
+                        "LPIPS": 0.2,
+                        "FID": 0.1,
+                    },
             },
         ]
         print("Completed evaluation for Dev Phase")
+        
+        
+        
     elif phase_codename == "test":
         print("Evaluating for Test Phase")
         output["result"] = [
             {
                 "split": "train_split",
                 "show_to_participant": True,
-                "accuracies": {"Metric1": 90},
-            },
+                "accuracies": 
+                    {
+                        "PSNR": 10.4,
+                        "SSIM": 0.5,
+                        "LPIPS": 0.2,
+                        "FID": 0.1,
+                    },            
+                },
             {
                 "split": "test_split",
                 "show_to_participant": False,
-                "accuracies": {"Metric1": 50, "Metric2": 40},
-            },
+                "accuracies": 
+                    {
+                        "PSNR": 10.4,
+                        "SSIM": 0.5,
+                        "LPIPS": 0.2,
+                        "FID": 0.1,
+                    },            
+                },
         ]
         print("Completed evaluation for Test Phase")
+        
+        
+        
     return output
