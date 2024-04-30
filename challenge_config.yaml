@@ -1,7 +1,7 @@
 # If you are not sure what all these fields mean, please refer our documentation here:
 # https://evalai.readthedocs.io/en/latest/configuration.html
-title: Random Number Generator Challenge
-short_description: Random number generation challenge for each submission
+title: Wayve Scene Reconstruction Benchmark
+short_description: A challenge designed to benchmark state-of-the-art scene reconstruction models on challenging driving scenes.
 description: templates/description.html
 evaluation_details: templates/evaluation_details.html
 terms_and_conditions: templates/terms_and_conditions.html
@@ -9,26 +9,34 @@ image: logo.jpg
 submission_guidelines: templates/submission_guidelines.html
 leaderboard_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas a libero nec sagittis.
 evaluation_script: evaluation_script.zip
-remote_evaluation: False
+remote_evaluation: True
 is_docker_based: False
-start_date: 2019-01-01 00:00:00
-end_date: 2099-05-31 23:59:59
+start_date: 2024-01-01 00:00:00
+end_date: 2028-12-31 23:59:59
 published: True
 
 leaderboard:
   - id: 1
     schema:
       {
-        "labels": ["Metric1", "Metric2", "Metric3", "Total"],
-        "default_order_by": "Total",
+        "labels": ["PSNR", "SSIM", "LPIPS", "FID", "Total"],
+        "default_order_by": "PSNR",
         "metadata": {
-          "Metric1": {
+          "PSNR": {
             "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "description": "Average PSNR values for all images in the split",
           },
-          "Metric2": {
+          "SSIM": {
             "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "description": "Average SSIM values for all images in the split.",
+          },
+          "LPIPS": {
+            "sort_ascending": True,
+            "description": "Average LPIPS values for all images in the split.",
+          },
+          "FID": {
+            "sort_ascending": False,
+            "description": "Average FID values for all images in the split.",
           }
         }
       }
