@@ -78,6 +78,7 @@ if __name__ == "__main__":
         if response.status_code in EVALAI_ERROR_CODES:
             is_token_valid = validate_token(response.json())
             if is_token_valid:
+                print(response.json())
                 error = response.json()["error"]
                 error_message = "\nFollowing errors occurred while validating the challenge config:\n{}".format(
                     error
