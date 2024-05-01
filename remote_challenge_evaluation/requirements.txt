@@ -1,1 +1,5 @@
 requests==2.25.1
+torchmetrics[image]==0.4.1
+pillow==9.4.0
+torch==2.2.1
+numpy==1.26.3

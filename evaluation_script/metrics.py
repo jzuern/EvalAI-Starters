@@ -1,25 +1,42 @@
 from typing import Optional
 from PIL import Image
 import torch
+import numpy as np
 
 from torchmetrics.functional.image.ssim import _ssim_update
 from torchmetrics.image.fid import FrechetInceptionDistance
 from torchmetrics.image.lpip import LearnedPerceptualImagePatchSimilarity
 
 
-def get_metrics(image_pred_file: str, image_target_file: str) -> dict:
+def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
-    pred = Image.open(image_pred_file)
-    target = Image.open(image_target_file)
+    pred = Image.open(user_submission_file)
+    target = Image.open(test_annotation_file)
     
+    # if either of the two has an alpha channel, remove it
+    if pred.mode == "RGBA":
+        pred = pred.convert("RGB")
+    if target.mode == "RGBA":
+        target = target.convert("RGB")
+        
+    # if shape is different resize to the target shape
+    if pred.size != target.size:
+        pred = pred.resize(target.size)
+        
+    # convert to np
+    pred = np.array(pred)
+    target = np.array(target)
+        
     # explicit conversion torch float tensor in format (H, W, C) and normalize to [0, 1]
     pred = torch.tensor(pred).float() / 255
     target = torch.tensor(target).float() / 255
     
     metrics = {}
-    metrics["psnr"] = compute_psnr(pred, target, mask=None)
-    metrics["ssim"] = compute_ssim(pred, target, mask=None)
-    metrics["lpips"] = compute_lpips(pred, target, mask=None)
+    metrics["psnr"] = compute_psnr(pred, target, mask=None).item()
+    metrics["ssim"] = compute_ssim(pred, target, mask=None).item()
+    metrics["lpips"] = compute_lpips(pred, target, mask=None).item()
+    
+    print(metrics)
     
     return metrics
 

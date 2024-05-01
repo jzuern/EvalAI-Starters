@@ -1,5 +1,5 @@
 import numpy as np 
-from metrics import compute_psnr
+from evaluation_script.metrics import compute_psnr
 import torch 
 
 
