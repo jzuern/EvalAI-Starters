@@ -33,8 +33,8 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
     metrics = {}
     metrics["psnr"] = compute_psnr(pred, target, mask=None).item()
-    metrics["ssim"] = compute_ssim(pred, target, mask=None).item()
-    metrics["lpips"] = compute_lpips(pred, target, mask=None).item()
+    # metrics["ssim"] = compute_ssim(pred, target, mask=None).item()
+    # metrics["lpips"] = compute_lpips(pred, target, mask=None).item()
     
     print(metrics)
     
