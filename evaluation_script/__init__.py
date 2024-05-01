@@ -14,7 +14,7 @@ def install(package):
 
     # Args:
     #     package ([str]): Package name with version
-    
+    print(f"Test-ABC Installing {package}")
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
 
 
