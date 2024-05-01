@@ -1,7 +1,5 @@
 import numpy as np 
-from evaluation_script.metrics import compute_psnr
-import torch 
-
+from metrics import compute_psnr
 
 
 def evaluate(user_submission_file, phase_codename, test_annotation_file=None, **kwargs):
