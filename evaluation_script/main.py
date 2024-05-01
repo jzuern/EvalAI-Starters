@@ -2,6 +2,8 @@ import random
 import os
 import sys 
 
+sys.path.append(os.path.join(os.path.dirname(__file__)))
+
 from metrics import get_metrics
 
 
