@@ -13,7 +13,7 @@ remote_evaluation: False
 is_docker_based: False
 start_date: 2024-07-01 00:00:00
 end_date: 2029-12-31 23:59:59
-published: False
+published: True
 
 leaderboard:
   - id: 1
@@ -87,7 +87,7 @@ challenge_phases:
         required: True
     is_restricted_to_select_one_submission: False
     is_partial_submission_evaluation_enabled: False
-    allowed_submission_file_types: ".json, .zip, .txt, .tsv, .gz, .csv, .h5, .npy, .npz"
+    allowed_submission_file_types: ".json, .zip, .txt, .tsv, .gz, .csv, .h5, .npy, .npz, .jpg, .png, .jpeg"
   - id: 2
     name: Test Phase
     description: templates/challenge_phase_2_description.html
