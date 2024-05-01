@@ -1,22 +1,8 @@
 import os
 import sys 
 
-# install packages
-try:
-    os.system("pip install PyGithub===1.53")
-    os.system("pip install requests==2.24.0")
-    os.system("pip install pillow==9.4.0")
-    os.system("pip install numpy==1.21.6")
-    os.system("pip install torch==1.13.1")
-    os.system("pip install torchmetrics[image]")
-except Exception as e:
-    print("Error installing Packages")
-    print(e)
-
-
-# make sure the evaluation script is in the path
 sys.path.append(os.path.join(os.path.dirname(__file__)))
-from metrics import get_metrics
+from metrics_cpu import get_metrics
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):

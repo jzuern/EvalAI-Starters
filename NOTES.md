@@ -1,0 +1,1 @@
+curl -X PUT "https://eval.ai" -H "Content-Type: application/json" -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTcwODY5MTkyMSwianRpIjoiM2IwMmQ4NDAxNmI5NDlmNDg2ZDgwNTE0ODU0NGJlMjgiLCJ1c2VyX2lkIjoyODEzN30.ilcfclX7JpcXDyZKZuF30MHsw8PrMBZsQhVBer4wXNg"
