@@ -4,6 +4,8 @@ import numpy as np
 
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
+    print("1 inside get_metrics")
+    
     pred = Image.open(user_submission_file)
     target = Image.open(test_annotation_file)
     
@@ -13,6 +15,8 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     if target.mode == "RGBA":
         target = target.convert("RGB")
         
+    print("2 inside get_metrics")
+
     # if shape is different resize to the target shape
     if pred.size != target.size:
         pred = pred.resize(target.size)
@@ -20,11 +24,17 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     # convert to np
     pred = np.array(pred)
     target = np.array(target)
-            
+    
+    print("3 inside get_metrics")
+
     metrics = {}
     metrics["psnr"] = compute_psnr(pred, target, mask=None).item()
+    metrics["ssim"] = 0.0
+    metrics["lpips"] = 0.0
+    metrics["fid"] = 0.0 
+    metrics["total"] = 0.25 * (metrics["psnr"] / 30. + metrics["ssim"] + (1 - metrics["lpips"]) + (1 - metrics["fid"]))
     
-    print(metrics)
+    print(4, metrics)
     
     return metrics
 
