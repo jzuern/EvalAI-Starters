@@ -1,6 +1,6 @@
 from PIL import Image
 import numpy as np
-from skimage.metrics import structural_similarity as ssim
+# from skimage.metrics import structural_similarity as ssim
 
 
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
