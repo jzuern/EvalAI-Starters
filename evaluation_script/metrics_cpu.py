@@ -27,10 +27,15 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     pred = np.array(pred)
     target = np.array(target)
     
+    # convert to float and normalize
+    pred = pred.astype(np.float32) / 255.0
+    target = target.astype(np.float32) / 255.0
+    
+    
     print("3 inside get_metrics")
 
     metrics = {}
-    metrics["psnr"] = compute_psnr(pred, target, mask=None).item()
+    metrics["psnr"] = compute_psnr(pred, target).item()
     metrics["ssim"] = 0.0
     metrics["lpips"] = 0.0
     metrics["fid"] = 0.0 
@@ -53,7 +58,7 @@ def compute_psnr(
     mse = np.mean((pred - target) ** 2)
     
     # Compute the PSNR
-    psnr = 10 * np.log10(1 / mse)
+    psnr = 20 * np.log10(1.0 / np.sqrt(mse))
 
     return psnr
 

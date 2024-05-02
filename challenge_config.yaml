@@ -122,7 +122,7 @@ challenge_phases:
         description: Sample
         type: checkbox
         options: ["alpha", "beta", "gamma"]
-      - name: TrueFalseField
+      - name: Have you read the terms and conditions?
         description: Sample
         type: boolean
     is_restricted_to_select_one_submission: False
