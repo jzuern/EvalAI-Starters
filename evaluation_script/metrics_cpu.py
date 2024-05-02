@@ -5,6 +5,8 @@ import numpy as np
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
     print("1 inside get_metrics")
+    print("user_submission_file", user_submission_file) 
+    print("test_annotation_file", test_annotation_file)
     
     pred = Image.open(user_submission_file)
     target = Image.open(test_annotation_file)
