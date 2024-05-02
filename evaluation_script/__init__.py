@@ -56,6 +56,7 @@ def install(package):
     
 install("shapely==1.7.1")
 install("requests==2.25.1")
+install("scikit-image")
 
 
 from .main import evaluate
