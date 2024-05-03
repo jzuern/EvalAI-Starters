@@ -5,10 +5,7 @@ import sys
 from skimage.metrics import structural_similarity as ssim
 from skimage.io import imread
 
-# def install(name):
-#     subprocess.call([sys.executable, '-m', 'pip', 'install', name])
-    
-    
+
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
     
