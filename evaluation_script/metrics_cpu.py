@@ -1,10 +1,20 @@
 from PIL import Image
 import numpy as np
-# from skimage.metrics import structural_similarity as ssim
+import subprocess
+import sys
 
-
+def install(name):
+    subprocess.call([sys.executable, '-m', 'pip', 'install', name])
+    
+    
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     
+    
+    print("installing scikit-image")
+    install("scikit-image")
+    print("installed scikit-image")
+    # from skimage.metrics import structural_similarity as ssim
+
     print("1 inside get_metrics")
     print("user_submission_file", user_submission_file) 
     print("test_annotation_file", test_annotation_file)
@@ -38,8 +48,8 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     metrics = {}
     metrics["psnr"] = compute_psnr(pred, target).item()
     metrics["ssim"] = 0.0
-    metrics["lpips"] = 0.0
-    metrics["fid"] = 0.0 
+    metrics["lpips"] = 1.0
+    metrics["fid"] = 1.0 
     metrics["total"] = 0.25 * (metrics["psnr"] / 30. + metrics["ssim"] + (1 - metrics["lpips"]) + (1 - metrics["fid"]))
     
     print(4, metrics)
