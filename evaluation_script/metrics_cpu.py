@@ -13,14 +13,17 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     print("installing scikit-image")
     install("scikit-image")
     print("installed scikit-image")
-    # from skimage.metrics import structural_similarity as ssim
+    
+    from skimage.metrics import structural_similarity as ssim
+    pred = skimage.io.imread(user_submission_file)
+    target = skimage.io.imread(test_annotation_file)
 
     print("1 inside get_metrics")
     print("user_submission_file", user_submission_file) 
     print("test_annotation_file", test_annotation_file)
     
-    pred = Image.open(user_submission_file)
-    target = Image.open(test_annotation_file)
+    # pred = Image.open(user_submission_file)
+    # target = Image.open(test_annotation_file)
     
     # if either of the two has an alpha channel, remove it
     if pred.mode == "RGBA":
