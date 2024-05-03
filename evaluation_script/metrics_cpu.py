@@ -41,19 +41,25 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     pred = np.array(pred)
     target = np.array(target)
     
-    # convert to float and normalize
-    pred = pred.astype(np.float32) / 255.0
-    target = target.astype(np.float32) / 255.0
+    # convert to float and normalize to [0, 1]
+    pred = pred.astype(np.float64) / 255.0
+    target = target.astype(np.float64) / 255.0
     
+    print(pred.shape, target.shape)
     
     print("3 inside get_metrics")
+    
+    psnr_value = compute_psnr(pred, target)
+    ssim_map = compute_ssim(pred, target)
+    ssim_value = np.mean(ssim_map)
 
     metrics = {}
-    metrics["psnr"] = compute_psnr(pred, target).item()
-    metrics["ssim"] = 0.0
-    metrics["lpips"] = 1.0
-    metrics["fid"] = 1.0 
-    metrics["total"] = 0.25 * (metrics["psnr"] / 30. + metrics["ssim"] + (1 - metrics["lpips"]) + (1 - metrics["fid"]))
+    metrics["psnr"] = psnr_value
+    metrics["ssim"] = ssim_value
+    # metrics["lpips"] = 1.0
+    # metrics["fid"] = 1.0 
+    # metrics["total"] = 0.25 * (metrics["psnr"] / 30. + metrics["ssim"] + (1 - metrics["lpips"]) + (1 - metrics["fid"]))
+    metrics["total"] = 0.5 * (metrics["psnr"] / 30. + metrics["ssim"])
     
     print(4, metrics)
     
@@ -77,4 +83,82 @@ def compute_psnr(
     return psnr
 
 
+def fspecial_gauss(size, sigma):
+    """Function to mimic the 'fspecial' gaussian MATLAB function
+    """
+    x, y = np.mgrid[-size//2 + 1:size//2 + 1, -size//2 + 1:size//2 + 1]
+    g = np.exp(-((x**2 + y**2)/(2.0*sigma**2)))
+    return g/g.sum()
 
+
+def compute_ssim_single_channel(img1, img2, cs_map=False):
+    
+    """Return the Structural Similarity Map corresponding to input images img1 
+    and img2 (images are assumed to be uint8)
+    
+    This function attempts to mimic precisely the functionality of ssim.m a 
+    MATLAB provided by the author's of SSIM
+    https://ece.uwaterloo.ca/~z70wang/research/ssim/ssim_index.m
+    """
+    img1 = img1.astype(np.float64) * 255.
+    img2 = img2.astype(np.float64)  * 255.
+    size = 11
+    sigma = 1.5
+    window = fspecial_gauss(size, sigma)
+    K1 = 0.01
+    K2 = 0.03
+    L = 255 #bitdepth of image
+    C1 = (K1*L)**2
+    C2 = (K2*L)**2
+    
+    print(window.shape, img1.shape, img2.shape)
+
+    mu1 = signal.fftconvolve(window, img1, mode='valid')
+    mu2 = signal.fftconvolve(window, img2, mode='valid')
+    mu1_sq = mu1*mu1
+    mu2_sq = mu2*mu2
+    mu1_mu2 = mu1*mu2
+    
+    sigma1_sq = signal.fftconvolve(window, img1*img1, mode='valid') - mu1_sq
+    sigma2_sq = signal.fftconvolve(window, img2*img2, mode='valid') - mu2_sq
+    sigma12 = signal.fftconvolve(window, img1*img2, mode='valid') - mu1_mu2
+    if cs_map:
+        return (((2*mu1_mu2 + C1)*(2*sigma12 + C2))/((mu1_sq + mu2_sq + C1)*
+                    (sigma1_sq + sigma2_sq + C2)), 
+                (2.0*sigma12 + C2)/(sigma1_sq + sigma2_sq + C2))
+    else:
+        return ((2*mu1_mu2 + C1)*(2*sigma12 + C2))/((mu1_sq + mu2_sq + C1)*
+                    (sigma1_sq + sigma2_sq + C2))
+        
+
+def compute_ssim(img1, img2, cs_map=False):
+
+    if not img1.shape == img2.shape:
+        raise ValueError('Input images must have the same dimensions.')
+    
+    if img1.ndim == 2:
+        return compute_ssim_single_channel(img1, img2, cs_map)
+    
+    elif img1.ndim == 3:
+        if cs_map:
+            ret = []
+            for i in range(img1.shape[2]):
+                ret.append(compute_ssim_single_channel(img1[...,i], img2[...,i], cs_map))
+            return np.array(ret)
+        else:
+            return np.array([compute_ssim_single_channel(img1[...,i], img2[...,i], cs_map) for i in range(img1.shape[2])])
+    else:
+        raise ValueError('Wrong input image dimensions')
+                         
+                         
+                         
+        
+if __name__ == "__main__":
+    
+    
+    image_original = "/Users/jannikzurn/Downloads/PSNR-example-base.png"
+    image_modified = "/Users/jannikzurn/Downloads/PSNR-example-comp-10.jpg"
+    
+    get_metrics(image_original, image_modified)
+    
+    print("done")
