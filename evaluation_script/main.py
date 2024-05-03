@@ -2,7 +2,9 @@ import os
 import sys 
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
-from metrics_cpu import get_metrics
+
+from metrics import get_metrics_single_image
+from evaluation import evaluate_submission
 
 
 def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwargs):
@@ -46,9 +48,11 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     output = {}
     if phase_codename == "dev":
         print("Evaluating for Dev Phase")
+        
         output["result"] = [
             {
-                "train_split": get_metrics(test_annotation_file, user_submission_file)
+                "train_split": evaluate_submission(test_annotation_file, user_submission_file)
+                # "train_split": get_metrics_single_image(test_annotation_file, user_submission_file)
             }
         ]
         # To display the results in the result file
@@ -56,16 +60,16 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
         print("Completed evaluation for Dev Phase")
         
         
-        
     elif phase_codename == "test":
         print("Evaluating for Test Phase")
         output["result"] = [
             {
-                "train_split": get_metrics(test_annotation_file, user_submission_file)
-
+                # "train_split": get_metrics_single_image(test_annotation_file, user_submission_file)
+                "train_split": evaluate_submission(test_annotation_file, user_submission_file)
             },
             {
-                "test_split": get_metrics(test_annotation_file, user_submission_file)
+                # "test_split": get_metrics_single_image(test_annotation_file, user_submission_file)
+                "test_split": evaluate_submission(test_annotation_file, user_submission_file)
             },
         ]
         # To display the results in the result file
@@ -78,10 +82,29 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
 
 if __name__ == "__main__":
     
-    test_annotation_file = "/Users/jannikzurn/Downloads/PSNR-example-base.png"
-    user_submission_file = "/Users/jannikzurn/Downloads/PSNR-example-comp-10.jpg"
+    # test_annotation_file_image = "/Users/jannikzurn/Downloads/PSNR-example-base.png"
+    # user_submission_file_image = "/Users/jannikzurn/Downloads/PSNR-example-comp-10.jpg"
     
-    phase_codename = "dev"
-    evaluate(test_annotation_file, user_submission_file, phase_codename)
-    phase_codename = "test"
-    evaluate(test_annotation_file, user_submission_file, phase_codename)
+    # phase_codename = "dev"
+    # evaluate(test_annotation_file_image, user_submission_file_image, phase_codename)
+    
+    # phase_codename = "test"
+    # evaluate(test_annotation_file_image, user_submission_file_image, phase_codename)
+    
+    test_annotation_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
+    user_submission_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
+
+    evaluate(test_annotation_file_zip, user_submission_file_zip, "dev")
+    evaluate(test_annotation_file_zip, user_submission_file_zip, "test")
+
+
+
+# # Example usage
+# if __name__ == '__main__':
+
+#     parser = argparse.ArgumentParser()
+#     parser.add_argument('zipfile_submission', type=str, help='Path to the submission zip file')
+#     parser.add_argument('zipfile_gt', type=str, help='Path to the target zip file')
+#     args = parser.parse_args()
+
+#     metrics = evaluate_submission(args.zipfile_submission, args.zipfile_gt)
