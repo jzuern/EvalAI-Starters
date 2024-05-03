@@ -7,11 +7,11 @@ evaluation_details: templates/evaluation_details.html
 terms_and_conditions: templates/terms_and_conditions.html
 image: logo.jpg
 submission_guidelines: templates/submission_guidelines.html
-leaderboard_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras egestas a libero nec sagittis.
+leaderboard_description: Leaderboard listing all valid submissions
 evaluation_script: evaluation_script.zip
 remote_evaluation: False
 is_docker_based: False
-start_date: 2024-04-01 00:00:00
+start_date: 2024-05-01 00:00:00
 end_date: 2029-12-31 23:59:59
 published: True
 
@@ -19,28 +19,20 @@ leaderboard:
   - id: 1
     schema:
       {
-        "labels": ["PSNR", "LPIPS", "SSIM", "FID", "Total"],
+        "labels": ["PSNR", "SSIM", "Total"],
         "default_order_by": "Total",
         "metadata": {
           "PSNR": {
             "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          "LPIPS": {
-            "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "description": "Peak Signal-to-Noise Ratio (PSNR) is a metric that measures the quality of an image by comparing it to a reference image. The metric is expressed in decibels (dB) and higher values indicate better quality.",
           },
           "SSIM": {
             "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-          },
-          "FID": {
-            "sort_ascending": False,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "description": "Structural Similarity Index (SSIM) is a metric that measures the similarity between two images. The SSIM score ranges from -1 to 1, where 1 indicates perfect similarity between the images.",
           },
           "Total": {
             "sort_ascending": True,
-            "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "description": "The total score is calculated as the average of the PSNR and SSIM scores. For more details, refer to the evaluation script for the exact formula used to calculate the total.",
           },
         }
       }
@@ -52,8 +44,8 @@ challenge_phases:
     leaderboard_public: False
     is_public: True
     is_submission_public: True
-    start_date: 2019-01-19 00:00:00
-    end_date: 2099-04-25 23:59:59
+    start_date: 2024-05-01 00:00:00
+    end_date: 2029-12-31 23:59:59
     test_annotation_file: annotations/test_annotation_devsplit.png
     codename: dev
     max_submissions_per_day: 50
@@ -73,29 +65,21 @@ challenge_phases:
         description: Sample
         type: text
         required: False
-      - name: SingleOptionAttribute
-        description: Sample
-        type: radio
-        options: ["A", "B", "C"]
-      - name: MultipleChoiceAttribute
-        description: Sample
-        type: checkbox
-        options: ["alpha", "beta", "gamma"]
-      - name: TrueFalseField
-        description: Sample
+      - name: Have you read the terms and conditions?
+        description: You cannot participate in the challenge if you have not read the terms and conditions
         type: boolean
         required: True
     is_restricted_to_select_one_submission: False
     is_partial_submission_evaluation_enabled: False
-    allowed_submission_file_types: ".json, .zip, .txt, .tsv, .gz, .csv, .h5, .npy, .npz, .jpg, .png, .jpeg"
+    allowed_submission_file_types: ".zip, .jpg, .png, .jpeg"
   - id: 2
     name: Test Phase
     description: templates/challenge_phase_2_description.html
     leaderboard_public: True
     is_public: True
     is_submission_public: True
-    start_date: 2019-01-01 00:00:00
-    end_date: 2099-05-24 23:59:59
+    start_date: 2024-05-01 00:00:00
+    end_date: 2029-12-31 23:59:59
     test_annotation_file: annotations/test_annotation_testsplit.png
     codename: test
     max_submissions_per_day: 5
@@ -114,16 +98,8 @@ challenge_phases:
       - name: TextAttribute
         description: Sample
         type: text
-      - name: SingleOptionAttribute
-        description: Sample
-        type: radio
-        options: ["A", "B", "C"]
-      - name: MultipleChoiceAttribute
-        description: Sample
-        type: checkbox
-        options: ["alpha", "beta", "gamma"]
-      - name: Have you read the terms and conditions?
-        description: Sample
+      - name: Have you read the Terms and Conditions?
+        description: You cannot participate in the challenge if you have not read the terms and conditions.
         type: boolean
     is_restricted_to_select_one_submission: False
     is_partial_submission_evaluation_enabled: False

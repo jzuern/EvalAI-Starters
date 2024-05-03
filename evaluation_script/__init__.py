@@ -59,7 +59,7 @@ install("requests==2.25.1")
 install("Pillow")
 # install("scikit-image")  # this leads to the image not being found
 # install("imageio[opencv]")   # this leads to the image not being found
-install("scipy")   
+install("scipy")
 
 
 from .main import evaluate
