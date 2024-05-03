@@ -1,9 +1,9 @@
 from PIL import Image
 import numpy as np
-import subprocess
-import sys
-from skimage.metrics import structural_similarity as ssim
-from skimage.io import imread
+# import subprocess
+# import sys
+# from skimage.metrics import structural_similarity as ssim
+# from skimage.io import imread
 
 
 def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
@@ -13,24 +13,21 @@ def get_metrics(test_annotation_file: str, user_submission_file: str) -> dict:
     # install("scikit-image")
     # print("installed scikit-image")
     
-    pred = imread(user_submission_file)
-    target = imread(test_annotation_file)
+    # pred = imread(user_submission_file)
+    # target = imread(test_annotation_file)
     
-    print("pred.shape", pred.shape)
-    print("target.shape", target.shape)
-
     print("1 inside get_metrics")
     print("user_submission_file", user_submission_file) 
     print("test_annotation_file", test_annotation_file)
     
-    # pred = Image.open(user_submission_file)
-    # target = Image.open(test_annotation_file)
+    pred = Image.open(user_submission_file)
+    target = Image.open(test_annotation_file)
     
-    # # if either of the two has an alpha channel, remove it
-    # if pred.mode == "RGBA":
-    #     pred = pred.convert("RGB")
-    # if target.mode == "RGBA":
-    #     target = target.convert("RGB")
+    # if either of the two has an alpha channel, remove it
+    if pred.mode == "RGBA":
+        pred = pred.convert("RGB")
+    if target.mode == "RGBA":
+        target = target.convert("RGB")
         
     print("2 inside get_metrics")
 

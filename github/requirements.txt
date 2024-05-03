@@ -2,5 +2,3 @@ PyGithub===1.53
 requests==2.24.0
 pillow==9.4.0
 numpy==1.21.6
-scikit-image
-imageio[opencv]

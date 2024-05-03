@@ -56,6 +56,7 @@ def install(package):
     
 install("shapely==1.7.1")
 install("requests==2.25.1")
+install("Pillow")
 # install("scikit-image")  # this leads to the image not being found
 # install("imageio[opencv]")   # this leads to the image not being found
 
