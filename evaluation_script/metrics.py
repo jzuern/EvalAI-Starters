@@ -11,11 +11,13 @@ from scipy import ndimage
 
 def get_metrics_single_image(annotation, submission) -> dict:
     
+    
+    
     if isinstance(annotation, str):
-        print("Loading annotation image")
+        print("Loading annotation image {}".format(annotation))
         annotation = Image.open(annotation)
     if isinstance(submission, str):
-        print("Loading submission image")
+        print("Loading submission image {}".format(submission))
         submission = Image.open(submission)
         
     # if either of the two has an alpha channel, remove it
@@ -37,10 +39,9 @@ def get_metrics_single_image(annotation, submission) -> dict:
     annotation = annotation / 255.0
     
     # add some random noise to the submission
+    # TODO: remove this line
     submission = submission + np.random.normal(0, 0.1, submission.shape)
-        
-    print("3 inside get_metrics")
-    
+            
     psnr_value = compute_psnr(submission, annotation)
     ssim_value = np.mean(compute_ssim(submission, annotation))
 
@@ -51,9 +52,7 @@ def get_metrics_single_image(annotation, submission) -> dict:
     # metrics["fid"] = 1.0 
     # metrics["total"] = 0.25 * (metrics["psnr"] / 30. + metrics["ssim"] + (1 - metrics["lpips"]) + (1 - metrics["fid"]))
     metrics["total"] = 0.5 * (metrics["psnr"] / 30. + metrics["ssim"])
-    
-    print(4, metrics)
-    
+        
     return metrics
 
 
@@ -102,8 +101,6 @@ def compute_ssim_single_channel(img1, img2, cs_map=False):
     C1 = (K1*L)**2
     C2 = (K2*L)**2
     
-    print(window.shape, img1.shape, img2.shape)
-
     mu1 = signal.fftconvolve(window, img1, mode='valid')
     mu2 = signal.fftconvolve(window, img2, mode='valid')
     mu1_sq = mu1*mu1
@@ -140,8 +137,6 @@ def compute_ssim(img1, img2, cs_map=False):
             return np.array([compute_ssim_single_channel(img1[...,i], img2[...,i], cs_map) for i in range(img1.shape[2])])
     else:
         raise ValueError('Wrong input image dimensions')
-                         
-                         
                          
         
 if __name__ == "__main__":
