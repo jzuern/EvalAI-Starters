@@ -1,0 +1,2 @@
+torchmetrics[image]==1.3.2
+scikit-image==0.21.0

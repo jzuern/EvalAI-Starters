@@ -100,7 +100,7 @@ def evaluate_submission(zipfile_pred, zipfile_target):
         metrics_dict[metric] = np.mean([metrics_dict[scene][metric] for scene in scenes_in_dataset])
         
 
-    print (json.dumps(metrics_dict, indent=2))
+    print (json.dumps(metrics_dict, indent=4))
 
 
     # Clean up temporary folder

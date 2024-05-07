@@ -69,6 +69,10 @@ def compute_psnr(
     
     # Compute the PSNR
     psnr = 20 * np.log10(1.0 / np.sqrt(mse))
+    
+    # If the PSNR is infinite, return 100.0 (maximum value)
+    if np.isinf(psnr):
+        return 100.0
 
     return psnr
 

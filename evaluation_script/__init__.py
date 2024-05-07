@@ -62,4 +62,19 @@ install("Pillow")
 install("scipy")
 
 
+
+# pip install evaluation_script/benchmark.
+
+command = "python -m pip install -r {}".format(
+   os.path.join(str(Path(__file__).parent.absolute()) + "/requirements.txt"))
+subprocess.run(command, shell=True, check=True)
+
+
+print("INSTALLING ATTEMPT v0.1")
+
+sys.path.append(os.path.join(os.path.dirname(__file__)))
+
+
+
+
 from .main import evaluate
