@@ -1,5 +1,6 @@
 import os
 import sys 
+import argparse 
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 
@@ -79,32 +80,12 @@ def evaluate(test_annotation_file, user_submission_file, phase_codename, **kwarg
     return output
 
 
+# Example usage
+if __name__ == '__main__':
 
-if __name__ == "__main__":
-    
-    # test_annotation_file_image = "/Users/jannikzurn/Downloads/PSNR-example-base.png"
-    # user_submission_file_image = "/Users/jannikzurn/Downloads/PSNR-example-comp-10.jpg"
-    
-    # phase_codename = "dev"
-    # evaluate(test_annotation_file_image, user_submission_file_image, phase_codename)
-    
-    # phase_codename = "test"
-    # evaluate(test_annotation_file_image, user_submission_file_image, phase_codename)
-    
-    test_annotation_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
-    user_submission_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--test_annotation_file_zip', type=str, default="/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip")
+    parser.add_argument('--user_submission_file_zip', type=str, default="/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip")
+    args = parser.parse_args()
 
-    evaluate(test_annotation_file_zip, user_submission_file_zip, "dev")
-    evaluate(test_annotation_file_zip, user_submission_file_zip, "test")
-
-
-
-# # Example usage
-# if __name__ == '__main__':
-
-#     parser = argparse.ArgumentParser()
-#     parser.add_argument('zipfile_submission', type=str, help='Path to the submission zip file')
-#     parser.add_argument('zipfile_gt', type=str, help='Path to the target zip file')
-#     args = parser.parse_args()
-
-#     metrics = evaluate_submission(args.zipfile_submission, args.zipfile_gt)
+    metrics = evaluate(args.user_submission_file_zip, args.test_annotation_file_zip, "dev")
