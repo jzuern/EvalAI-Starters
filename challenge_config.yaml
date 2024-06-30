@@ -1,7 +1,7 @@
 # If you are not sure what all these fields mean, please refer our documentation here:
 # https://evalai.readthedocs.io/en/latest/configuration.html
-title: Wayve Scene Reconstruction Benchmark
-short_description: A benchmark for benchmarking scene reconstruction models on challenging real-world and diverse driving scenes 
+title: WayveScenes101 Benchmark Challenge
+short_description: A benchmark for evaluating novel view synthesis methods on diverse and challenging real-world driving scenes 
 description: templates/description.html
 evaluation_details: templates/evaluation_details.html
 terms_and_conditions: templates/terms_and_conditions.html
@@ -11,7 +11,7 @@ leaderboard_description: Leaderboard listing all valid submissions
 evaluation_script: evaluation_script.zip
 remote_evaluation: False
 is_docker_based: False
-start_date: 2024-05-01 00:00:00
+start_date: 2024-06-01 00:00:00
 end_date: 2029-12-31 23:59:59
 published: True
 
@@ -46,7 +46,7 @@ challenge_phases:
     is_submission_public: True
     start_date: 2024-05-01 00:00:00
     end_date: 2029-12-31 23:59:59
-    test_annotation_file: annotations/wayve_scene_reconstruction_benchmark.zip
+    test_annotation_file: annotations/wayve_scenes_101.zip
     codename: dev
     max_submissions_per_day: 50
     max_submissions_per_month: 500

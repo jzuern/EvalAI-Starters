@@ -91,8 +91,8 @@ if __name__ == "__main__":
     # phase_codename = "test"
     # evaluate(test_annotation_file_image, user_submission_file_image, phase_codename)
     
-    test_annotation_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
-    user_submission_file_zip = "/Users/jannikzurn/Desktop/wayve_scene_reconstruction_benchmark.zip"
+    test_annotation_file_zip = "/Users/jannikzurn/data/wayve_scenes_101_small/wayve_scenes_101/wayve_scenes_101.zip"
+    user_submission_file_zip = "/Users/jannikzurn/data/wayve_scenes_101_small/wayve_scenes_101/wayve_scenes_101.zip"
 
     evaluate(test_annotation_file_zip, user_submission_file_zip, "dev")
     evaluate(test_annotation_file_zip, user_submission_file_zip, "test")

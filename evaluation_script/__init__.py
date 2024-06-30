@@ -54,6 +54,9 @@ def install(package):
     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
     
     
+print("INSTALLING ATTEMPT v0.2 ...")
+
+
 install("shapely==1.7.1")
 install("requests==2.25.1")
 install("Pillow")
@@ -61,16 +64,12 @@ install("Pillow")
 # install("imageio[opencv]")   # this leads to the image not being found
 install("scipy")
 
+# command = "python -m pip install -r {}".format(
+#    os.path.join(str(Path(__file__).parent.absolute()) + "/requirements.txt"))
+# subprocess.run(command, shell=True, check=True)
 
 
-# pip install evaluation_script/benchmark.
-
-command = "python -m pip install -r {}".format(
-   os.path.join(str(Path(__file__).parent.absolute()) + "/requirements.txt"))
-subprocess.run(command, shell=True, check=True)
-
-
-print("INSTALLING ATTEMPT v0.1")
+print("INSTALLING ATTEMPT v0.2 done")
 
 sys.path.append(os.path.join(os.path.dirname(__file__)))
 

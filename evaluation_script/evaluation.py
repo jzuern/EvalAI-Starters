@@ -23,8 +23,8 @@ def check_valid_image(path: str) -> bool:
 
 def evaluate_submission(zipfile_pred, zipfile_target):
     
-    tmp_folder_pred = '/tmp/wayve_scene_reconstruction_benchmark_pred_eval'
-    tmp_folder_target = '/tmp/wayve_scene_reconstruction_benchmark_target_eval'
+    tmp_folder_pred = '/tmp/wayve_scenes_101_pred_eval'
+    tmp_folder_target = '/tmp/wayve_scenes_101_gt_eval'
     
     # Clean up temporary folder
     os.system(f"rm -rf {tmp_folder_pred}")
@@ -34,7 +34,7 @@ def evaluate_submission(zipfile_pred, zipfile_target):
     os.makedirs(tmp_folder_pred, exist_ok=True)
     os.makedirs(tmp_folder_target, exist_ok=True)
 
-    test_camera_names = ['ff']
+    test_camera_names = ['front-forward']
     per_image_evaluation_metrics = ['ssim', 'psnr']
     allowed_image_formats = ['png', 'jpg', 'jpeg']
     
@@ -44,8 +44,6 @@ def evaluate_submission(zipfile_pred, zipfile_target):
     with zipfile.ZipFile(zipfile_target, 'r') as zip_target:
         zip_target.extractall(tmp_folder_target)
         
-    tmp_folder_pred = os.path.join(tmp_folder_pred, 'wayve_scene_reconstruction_benchmark/scenes')
-    tmp_folder_target = os.path.join(tmp_folder_target, 'wayve_scene_reconstruction_benchmark/scenes')
     
     # define the content for an empty image submission
     non_result = {
@@ -59,21 +57,30 @@ def evaluate_submission(zipfile_pred, zipfile_target):
     metrics_dict = {}
         
     # iterate over all scenes in the root folder
-    for scene in os.listdir(tmp_folder_target):
+    for scene in sorted(os.listdir(tmp_folder_target)):
+        if scene == '__MACOSX':
+            continue
+        
         metrics_dict[scene] = {}
         
+        print(f"Processing scene {scene}")
+        
         # iterate over all cameras in the scene
-        for camera in os.listdir(os.path.join(tmp_folder_target, scene)):
+        for camera in os.listdir(os.path.join(tmp_folder_target, scene, 'images')):
             if camera not in test_camera_names:
                 continue
+            
+            print(f"    Processing camera {camera}")
                         
             # init the dict for the camera
             metrics_dict[scene][camera] = {}
                         
             # iterate over all images in the camera folder
-            for image in os.listdir(os.path.join(tmp_folder_target, scene, camera)):
-                imfile_target = os.path.join(tmp_folder_target, scene, camera, image)
-                imfile_pred = os.path.join(tmp_folder_pred, scene, camera, image)
+            for image in os.listdir(os.path.join(tmp_folder_target, scene, 'images', camera)):
+                imfile_target = os.path.join(tmp_folder_target, scene, 'images', camera, image)
+                imfile_pred = os.path.join(tmp_folder_pred, scene, 'images', camera, image)
+                
+                print(f"        Processing image {imfile_target}")
                 
                 if check_valid_image(imfile_target) and check_valid_image(imfile_pred):
                     image_result = get_metrics_single_image(imfile_pred, imfile_target)
@@ -100,12 +107,12 @@ def evaluate_submission(zipfile_pred, zipfile_target):
         metrics_dict[metric] = np.mean([metrics_dict[scene][metric] for scene in scenes_in_dataset])
         
 
-    print (json.dumps(metrics_dict, indent=4))
+    # print (json.dumps(metrics_dict, indent=4))
 
 
     # Clean up temporary folder
-    os.system(f"rm -rf {tmp_folder_pred}")
-    os.system(f"rm -rf {tmp_folder_target}")
+    # os.system(f"rm -rf {tmp_folder_pred}")
+    # os.system(f"rm -rf {tmp_folder_target}")
     
     return metrics_dict
 
